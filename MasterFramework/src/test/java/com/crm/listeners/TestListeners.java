@@ -1,9 +1,18 @@
 package com.crm.listeners;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
+import org.testng.ISuite;
+import org.testng.ISuiteListener;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
+import org.testng.ITestNGMethod;
 import org.testng.ITestResult;
 
 import com.aventstack.extentreports.ExtentReports;
@@ -18,15 +27,23 @@ import com.crm.commonUtilities.CommonMethods;
 import com.crm.commonUtilities.ExcelOperation;
 import com.crm.commonUtilities.ExtentReporterNG;
 import com.crm.commonUtilities.ScreenShot;
+import com.crm.commonUtilities.EmailReporting;
 
 
 
-public class TestListeners extends SetUp implements ITestListener
+public class TestListeners extends SetUp implements ITestListener, ISuiteListener
 {
 	public static ExtentTest test;
 	public static ExtentReports extent=ExtentReporterNG.getReportObject();
 	public static ThreadLocal<ExtentTest> extentTest =new ThreadLocal<ExtentTest>();
 	
+	public static List<ITestNGMethod> passedtests = new ArrayList<ITestNGMethod>();
+	public static List<ITestNGMethod> failedtests = new ArrayList<ITestNGMethod>();
+	public static List<ITestNGMethod> skippedtests = new ArrayList<ITestNGMethod>();
+	public static LocalDateTime startTime;
+	public static LocalDateTime endTime;
+    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");  
+    
 	public void onTestStart(ITestResult result) 
 	{
 		String methodName = result.getMethod().getMethodName();
@@ -44,6 +61,8 @@ public class TestListeners extends SetUp implements ITestListener
 		String logText = "<b>" + "Test Case:- " + methodName+ " PASSED" + "</b>";
 		Markup m = MarkupHelper.createLabel(logText, ExtentColor.GREEN);
 		extentTest.get().pass(m);
+        passedtests.add(result.getMethod());
+
 
 		log.info("Test Case_" + methodName + "_Successfully Passed");
 		try {
@@ -81,6 +100,7 @@ public class TestListeners extends SetUp implements ITestListener
 				.fail("<details>" + "<summary>" + "<b>" + "<font color=" + "red>" + "Exception Occured:Click to see"
 						+ "</font>" + "</b >" + "</summary>" + excepionMessage.replaceAll(",", "<br>") + "</details>"
 						+ " \n");
+        failedtests.add(result.getMethod());
 
 		try {
 			ScreenShot.takeSnapShot(methodName, "Fail");
@@ -109,6 +129,7 @@ public class TestListeners extends SetUp implements ITestListener
 		String logText = "<b>" + "Test Case:- " + methodName + " Skipped" + "</b>";
 		Markup m = MarkupHelper.createLabel(logText, ExtentColor.YELLOW);
 		extentTest.get().skip(m);
+        skippedtests.add(result.getMethod());
 
 		log.info("Test Case_" + methodName + "_get Skipped as its Runmode is 'NO' ");
 
@@ -121,6 +142,22 @@ public class TestListeners extends SetUp implements ITestListener
 			extent.flush();
 		}
 	}
+	
+	public void onStart(ISuite arg0) {
+		startTime =  LocalDateTime.now();
+
+	}
+	
+	public void onFinish(ISuite arg0) {
+		endTime =  LocalDateTime.now();
+		try {
+		      EmailReporting.sendReportViaEmail(passedtests.size(), failedtests.size(), skippedtests.size(), startTime, endTime);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+}
 
 	
-}
+
