@@ -190,7 +190,7 @@ public class EmailReporting {
 		   // Send message
 		   Transport.send(message);
 
-		   System.out.println("Mail sent successfully....");
+		   log.info("Test Report Mail sent successfully to "+to);
 
 	      } catch (MessagingException e) {
 	         throw new RuntimeException(e);

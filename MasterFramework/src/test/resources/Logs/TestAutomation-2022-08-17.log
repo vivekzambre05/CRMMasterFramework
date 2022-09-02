@@ -1,0 +1,8 @@
+2022-08-17 12:55:22 INFO  Utils - [TestNG] Running:
+  C:\Users\Vrunda Vibhute\git\MasterFramework\MasterFramework\src\test\resources\RunnerFiles\testng.xml
+
+2022-08-17 12:55:22 INFO  SetUp - Test Case_VerifyCRMLogin_Successfully Started
+2022-08-17 12:55:22 ERROR SetUp - VerifyCRMLogin Get Failed due to 
+No valid entries or contents found, this is not a valid OOXML (Office Open XML) file
+2022-08-17 12:55:22 ERROR ScreenShot - Unbale to capture screenshot due to null
+2022-08-17 12:55:26 INFO  CommonMethods - Test Report Mail sent successfully to vrunda.vibhute@crmnext.com

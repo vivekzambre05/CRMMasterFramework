@@ -1,0 +1,77 @@
+2022-08-05 16:49:21 INFO  Utils - [TestNG] Running:
+  C:\Users\Vrunda Vibhute\git\MasterFramework\MasterFramework\testng.xml
+
+2022-08-05 16:49:21 INFO  SetUp - Test Case_VerifyCRMLogin_Successfully Started
+2022-08-05 16:49:32 INFO  WebDriverManager - Using chromedriver 104.0.5112.79 (resolved driver for Chrome 104)
+2022-08-05 16:49:32 INFO  WebDriverManager - Exporting webdriver.chrome.driver as C:\Users\Vrunda Vibhute\.cache\selenium\chromedriver\win32\104.0.5112.79\chromedriver.exe
+2022-08-05 16:49:35 INFO  SetUp - Chrome Browser Launched..
+2022-08-05 16:49:36 INFO  SetUp - URL : https://kmb.crmnext.com/sng7/app/login/login
+2022-08-05 16:49:37 INFO  ScreenShot - ScreenShot captured LoginPage || Status :Pass
+2022-08-05 16:49:37 INFO  CommonMethods - Sucessfully Clicked on Username_XPATH
+2022-08-05 16:49:38 INFO  CommonMethods - Data Sucessfully entered on Username_XPATH = admin
+2022-08-05 16:49:39 INFO  CommonMethods - Sucessfully Clicked on password_XPATH
+2022-08-05 16:49:40 INFO  CommonMethods - Data Sucessfully entered on password_XPATH = acid_qa
+2022-08-05 16:49:43 INFO  CommonMethods - Sucessfully Clicked on loginBtn_XPATH
+2022-08-05 16:49:44 INFO  CommonMethods - Sucessfully Clicked on ProfileBtn_XPATH
+2022-08-05 16:49:44 INFO  CommonMethods - Sucessfully Clicked on logoutBtn_XPATH
+2022-08-05 16:49:44 INFO  LoginPage - Sucessfully logout..
+2022-08-05 16:49:44 INFO  SetUp - Test Case_VerifyCRMLogin_Successfully Passed
+2022-08-05 16:49:46 INFO  CommonMethods - Row num for TestScenario = VerifyCRMLogin is = 1
+2022-08-05 16:49:47 INFO  ExcelOperation - Write to excel with : Row=1 | Cell =3 | Data =Pass
+2022-08-05 16:51:11 INFO  Utils - [TestNG] Running:
+  C:\Users\Vrunda Vibhute\git\MasterFramework\MasterFramework\testng.xml
+
+2022-08-05 16:51:11 INFO  SetUp - Test Case_VerifyCRMLogin_Successfully Started
+2022-08-05 16:51:13 INFO  WebDriverManager - Using chromedriver 104.0.5112.79 (resolved driver for Chrome 104)
+2022-08-05 16:51:13 INFO  WebDriverManager - Exporting webdriver.chrome.driver as C:\Users\Vrunda Vibhute\.cache\selenium\chromedriver\win32\104.0.5112.79\chromedriver.exe
+2022-08-05 16:51:15 INFO  SetUp - Chrome Browser Launched..
+2022-08-05 16:51:16 INFO  SetUp - URL : https://kmb.crmnext.com/sng7/app/login/login
+2022-08-05 16:51:17 INFO  ScreenShot - ScreenShot captured LoginPage || Status :Pass
+2022-08-05 16:51:17 INFO  CommonMethods - Sucessfully Clicked on Username_XPATH
+2022-08-05 16:51:18 INFO  CommonMethods - Data Sucessfully entered on Username_XPATH = admin
+2022-08-05 16:51:19 INFO  CommonMethods - Sucessfully Clicked on password_XPATH
+2022-08-05 16:51:20 INFO  CommonMethods - Data Sucessfully entered on password_XPATH = acid_qa
+2022-08-05 16:51:24 INFO  CommonMethods - Sucessfully Clicked on loginBtn_XPATH
+2022-08-05 16:51:24 INFO  CommonMethods - Sucessfully Clicked on ProfileBtn_XPATH
+2022-08-05 16:51:25 INFO  CommonMethods - Sucessfully Clicked on logoutBtn_XPATH
+2022-08-05 16:51:25 INFO  LoginPage - Sucessfully logout..
+2022-08-05 16:51:25 INFO  SetUp - Test Case_VerifyCRMLogin_Successfully Passed
+2022-08-05 16:51:27 INFO  CommonMethods - Row num for TestScenario = VerifyCRMLogin is = 1
+2022-08-05 16:51:28 INFO  ExcelOperation - Write to excel with : Row=1 | Cell =3 | Data =Pass
+2022-08-05 16:59:46 INFO  Utils - [TestNG] Running:
+  C:\Users\Vrunda Vibhute\git\MasterFramework\MasterFramework\src\test\resources\RunnerFiles\testng.xml
+
+2022-08-05 16:59:46 INFO  SetUp - Test Case_VerifyCRMLogin_Successfully Started
+2022-08-05 16:59:48 INFO  WebDriverManager - Using chromedriver 104.0.5112.79 (resolved driver for Chrome 104)
+2022-08-05 16:59:48 INFO  WebDriverManager - Exporting webdriver.chrome.driver as C:\Users\Vrunda Vibhute\.cache\selenium\chromedriver\win32\104.0.5112.79\chromedriver.exe
+2022-08-05 16:59:51 INFO  SetUp - Chrome Browser Launched..
+2022-08-05 16:59:52 INFO  SetUp - URL : https://kmb.crmnext.com/sng7/app/login/login
+2022-08-05 16:59:52 INFO  ScreenShot - ScreenShot captured LoginPage || Status :Pass
+2022-08-05 16:59:52 INFO  CommonMethods - Sucessfully clicked on Username_XPATH
+2022-08-05 16:59:53 INFO  CommonMethods - Data sucessfully entered on Username_XPATH = admin
+2022-08-05 16:59:54 INFO  CommonMethods - Sucessfully clicked on password_XPATH
+2022-08-05 16:59:55 INFO  CommonMethods - Data sucessfully entered on password_XPATH = acid_qa
+2022-08-05 16:59:58 INFO  CommonMethods - Sucessfully clicked on loginBtn_XPATH
+2022-08-05 16:59:59 INFO  CommonMethods - Sucessfully clicked on ProfileBtn_XPATH
+2022-08-05 16:59:59 INFO  CommonMethods - Sucessfully clicked on logoutBtn_XPATH
+2022-08-05 16:59:59 INFO  LoginPage - Sucessfully logout..
+2022-08-05 16:59:59 INFO  SetUp - Test Case_VerifyCRMLogin_Successfully Passed
+2022-08-05 17:00:00 INFO  CommonMethods - Row num for TestScenario = VerifyCRMLogin is = 1
+2022-08-05 17:00:01 INFO  ExcelOperation - Write to excel with : Row=1 | Cell =3 | Data =Pass
+2022-08-05 17:03:04 INFO  SetUp - Test Case_VerifyCRMLogin_Successfully Started
+2022-08-05 17:03:06 INFO  WebDriverManager - Using chromedriver 104.0.5112.79 (resolved driver for Chrome 104)
+2022-08-05 17:03:06 INFO  WebDriverManager - Exporting webdriver.chrome.driver as C:\Users\Vrunda Vibhute\.cache\selenium\chromedriver\win32\104.0.5112.79\chromedriver.exe
+2022-08-05 17:03:08 INFO  SetUp - Chrome Browser Launched..
+2022-08-05 17:03:10 INFO  SetUp - URL : https://kmb.crmnext.com/sng7/app/login/login
+2022-08-05 17:03:10 INFO  ScreenShot - ScreenShot captured LoginPage || Status :Pass
+2022-08-05 17:03:10 INFO  CommonMethods - Sucessfully clicked on Username_XPATH
+2022-08-05 17:03:11 INFO  CommonMethods - Data sucessfully entered on Username_XPATH = admin
+2022-08-05 17:03:11 INFO  CommonMethods - Sucessfully clicked on password_XPATH
+2022-08-05 17:03:12 INFO  CommonMethods - Data sucessfully entered on password_XPATH = acid_qa
+2022-08-05 17:03:16 INFO  CommonMethods - Sucessfully clicked on loginBtn_XPATH
+2022-08-05 17:03:16 INFO  CommonMethods - Sucessfully clicked on ProfileBtn_XPATH
+2022-08-05 17:03:17 INFO  CommonMethods - Sucessfully clicked on logoutBtn_XPATH
+2022-08-05 17:03:17 INFO  LoginPage - Sucessfully logout..
+2022-08-05 17:03:17 INFO  SetUp - Test Case_VerifyCRMLogin_Successfully Passed
+2022-08-05 17:03:17 INFO  CommonMethods - Row num for TestScenario = VerifyCRMLogin is = 1
+2022-08-05 17:03:19 INFO  ExcelOperation - Write to excel with : Row=1 | Cell =3 | Data =Pass

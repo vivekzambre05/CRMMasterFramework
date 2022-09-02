@@ -16,11 +16,6 @@ public class LoginPage extends TestListeners
 {
 	public static Logger log =LogManager.getLogger(LoginPage.class.getName());
 	
-	public LoginPage(WebDriver driver)
-	{
-		this.driver = driver;
-		PageFactory.initElements(driver, this);
-	}
 	
 	public void CRMLogin(String sheetName) throws Exception
 	{

@@ -1,0 +1,29 @@
+2022-08-26 17:53:51 INFO  Utils - [TestNG] Running:
+  C:\Users\Vrunda Vibhute\git\MasterFramework\MasterFramework\src\test\resources\RunnerFiles\testng.xml
+
+2022-08-26 17:53:51 INFO  SetUp - Test Case_VerifyCRMLogin_Successfully Started
+2022-08-26 17:54:01 INFO  WebDriverManager - Using chromedriver 104.0.5112.79 (resolved driver for Chrome 104)
+2022-08-26 17:54:01 INFO  WebDriverManager - Exporting webdriver.chrome.driver as C:\Users\Vrunda Vibhute\.cache\selenium\chromedriver\win32\104.0.5112.79\chromedriver.exe
+2022-08-26 17:54:04 INFO  SetUp - Chrome Browser Launched..
+2022-08-26 17:54:09 INFO  SetUp - URL : https://kmb.crmnext.com/sng7/app/login/login
+2022-08-26 17:54:09 INFO  ScreenShot - ScreenShot captured LoginPage || Status :Pass
+2022-08-26 17:54:09 INFO  CommonMethods - Sucessfully clicked on Username_XPATH
+2022-08-26 17:54:16 INFO  CommonMethods - Data sucessfully entered on Username_XPATH = admin
+2022-08-26 17:54:18 INFO  CommonMethods - Sucessfully clicked on password_XPATH
+2022-08-26 17:54:19 INFO  CommonMethods - Data sucessfully entered on password_XPATH = acid_qa
+2022-08-26 17:57:19 ERROR CommonMethods - Not Sucessfully clicked on loginBtn_XPATH due to :java.util.concurrent.TimeoutException
+Build info: version: '4.1.0', revision: '87802e897b'
+System info: host: 'VRUNDAV', ip: '192.168.1.101', os.name: 'Windows 10', os.arch: 'amd64', os.version: '10.0', java.version: '11'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Command: [63f742cb10f51eae7d760d775cdd0338, clickElement {id=0808e3f6-58f8-4678-90b4-498de687869a}]
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 104.0.5112.102, chrome: {chromedriverVersion: 104.0.5112.79 (3cf3e8c8a07d..., userDataDir: C:\Users\VRUNDA~1\AppData\L...}, goog:chromeOptions: {debuggerAddress: localhost:51325}, javascriptEnabled: true, networkConnectionEnabled: false, pageLoadStrategy: normal, platform: WINDOWS, platformName: WINDOWS, proxy: Proxy(), se:cdp: ws://localhost:51325/devtoo..., se:cdpVersion: 104.0.5112.102, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:virtualAuthenticators: true}
+Element: [[ChromeDriver: chrome on WINDOWS (63f742cb10f51eae7d760d775cdd0338)] -> xpath: //input[@name='command']]
+Session ID: 63f742cb10f51eae7d760d775cdd0338
+2022-08-26 17:58:09 INFO  CommonMethods - Sucessfully clicked on ProfileBtn_XPATH
+2022-08-26 17:58:10 INFO  CommonMethods - Sucessfully clicked on logoutBtn_XPATH
+2022-08-26 17:58:10 INFO  LoginPage - Sucessfully logout..
+2022-08-26 17:58:10 INFO  SetUp - Test Case_VerifyCRMLogin_Successfully Passed
+2022-08-26 17:58:11 INFO  CommonMethods - Row num for TestScenario = VerifyCRMLogin is = 1
+2022-08-26 17:58:12 INFO  ExcelOperation - Write to excel with : Row=1 | Cell =3 | Data =Pass
+2022-08-26 17:58:14 INFO  SetUp - Browser Closed..
+2022-08-26 17:58:20 INFO  CommonMethods - Test Report Mail sent successfully to vrunda.vibhute@crmnext.com

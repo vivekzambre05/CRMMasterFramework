@@ -26,7 +26,7 @@ public class TC01VerifyCRMLogin extends SetUp
 					"Skipping the test VerifyCRMLogin as the Run mode is NO");
 		}
 	   		//login to CRM
-				login = new LoginPage(driver);
+				login = new LoginPage();
 				login.CRMLogin(sheetName);
 				
 				login.Logout();

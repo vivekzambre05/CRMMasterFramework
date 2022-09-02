@@ -74,16 +74,16 @@ public class TestListeners extends SetUp implements ITestListener, ISuiteListene
 
 	public static void extentInfo(String message,String name) throws Exception
 	{
-		Markup m = MarkupHelper.createLabel(message, ExtentColor.BLUE);
+		Markup m = MarkupHelper.createLabel(message +" "+name, ExtentColor.BLUE);
     	extentTest.get().log(Status.INFO, m);
     	//ScreenShot.takeSnapShot(name, "Pass");
     	//extentTest.get().log(Status.INFO, message,MediaEntityBuilder.createScreenCaptureFromPath(ScreenShot.ScreenShotName).build() );
     	
 	}
 	
-	public static void extentError(String message)
+	public static void extentError(String message,String name)
 	{
-		Markup m = MarkupHelper.createLabel(message, ExtentColor.RED);
+		Markup m = MarkupHelper.createLabel(message +" "+name, ExtentColor.RED);
     	extentTest.get().log(Status.FAIL, m);
 	}
 	

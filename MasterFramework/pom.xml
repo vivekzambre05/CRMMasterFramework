@@ -68,6 +68,7 @@
 			<version>5.0.9</version>
 		</dependency>
 		
+		<!-- To Email Extent report -->
 		<dependency>
 			<groupId>com.sun.mail</groupId>
 			<artifactId>jakarta.mail</artifactId>
