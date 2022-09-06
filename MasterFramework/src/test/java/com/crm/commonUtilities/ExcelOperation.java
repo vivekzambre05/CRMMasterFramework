@@ -89,7 +89,6 @@ public class ExcelOperation
 	//To read test data from excel sheet
 	public static String readData(String sheet , int rowNum , int colNum) throws EncryptedDocumentException, IOException
 	{
-		//System.out.println("Write values : "+sheet +"|"+m+"|"+n+"|"+data);
 		File f = new File(ExcelPATH);
 
 		//Create an object of FileInputStream class to read excel file
@@ -101,21 +100,39 @@ public class ExcelOperation
 		String CellData;
 		cell  = wb.getSheet(sheet).getRow(rowNum).getCell(colNum);
 
-
-		DataFormatter formatter = new DataFormatter();
-		CellData = formatter.formatCellValue(cell);
-		CellData= cell.getStringCellValue();
+		//DataFormatter formatter = new DataFormatter();
+		//CellData = formatter.formatCellValue(cell);
+		//CellData= cell.getStringCellValue();
 		//log.info("Excel Data : "+CellData);
-		
-		/*
-		 * if(cell.getCellType()==CellType.STRING) { CellData=
-		 * cell.getStringCellValue(); log.info("Excel Data : "+CellData); } else {
-		 * CellData = NumberToTextConverter.toText(cell.getNumericCellValue());
-		 * log.info("Excel Data : "+CellData); }
-		 */
-		
-		inputStream.close();
-		return CellData;
+	
+		try
+		{
+		  if(cell.getCellType()==CellType.STRING) 
+		  { 
+			  CellData= cell.getStringCellValue(); 
+			  //log.info("Excel Data : "+CellData); 
+			  return CellData;
+		  } 
+		  else if(cell.getCellType()==CellType.NUMERIC)
+		  {
+			  CellData = NumberToTextConverter.toText(cell.getNumericCellValue());
+			  //log.info("Excel Data : "+CellData); 
+			  return CellData;
+			  
+		  } else if(cell.getCellType()==CellType.FORMULA )
+		  {
+			  CellData = cell.getStringCellValue();
+			  //log.info("Excel Data : "+CellData); 
+			  return CellData;
+		  }else if(cell.getCellType()==CellType.BLANK)
+		      return ""; 
+		  else 
+			  return String.valueOf(cell.getBooleanCellValue());
+		}catch(Exception e)
+		{
+			return "row "+rowNum+" or column "+colNum +" does not exist in xls";
+		}
+	
 	}	
 
 	//To read excel data using column header
