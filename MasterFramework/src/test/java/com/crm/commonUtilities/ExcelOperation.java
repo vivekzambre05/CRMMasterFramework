@@ -134,6 +134,35 @@ public class ExcelOperation
 		}
 	
 	}	
+	
+	public static ArrayList<String> getcolumnData(String SheetName, String colName) throws IOException
+	{	
+        ArrayList<String> columnData = new ArrayList<String>();
+
+		File f = new File(ExcelPATH);
+
+		//Create an object of FileInputStream class to read excel file
+		inputStream = new FileInputStream(f);
+
+		//creating workbook instance that refers to .xls file
+		wb=new XSSFWorkbook(inputStream); 
+
+		sheet = wb.getSheet(SheetName);
+		
+		//adding all the column header names to the map 'columns'
+		sheet.getRow(0).forEach(cell ->{
+			excelColumns.put(cell.getStringCellValue(), cell.getColumnIndex());
+		});
+				
+        int lastRowIndex = sheet.getLastRowNum() + 1;
+        int colNum = excelColumns.get(colName);
+        for (int j = 1; j < lastRowIndex; j++) {
+        	columnData.add(readData(SheetName, j, colNum));
+        }
+        
+	return columnData;
+
+	}
 
 	//To read excel data using column header
 	public static String getCellData(String SheetName ,String columnName, int rowNum) throws EncryptedDocumentException, IOException 

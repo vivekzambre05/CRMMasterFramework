@@ -9,7 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.aventstack.extentreports.ExtentReports;
-import com.aventstack.extentreports.Status;
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 import com.aventstack.extentreports.reporter.configuration.ViewName;
 import com.crm.base.SetUp;
@@ -23,7 +22,6 @@ public class ExtentReporterNG extends SetUp
 	public static String currentDir = System.getProperty("user.dir")+"\\src\\test\\resources\\Results";
 	public static String outPutFolder = currentDir +"\\Output_"+folderDate;
 	public static String reportPath = outPutFolder+"\\TestReport_"+folderDate+".html";
-
 	public static ExtentReports getReportObject()
 	{
 		//String reportPath = System.getProperty("user.dir")+"\\Reports\\KMB_LeadCreationReport_"+folderDate;
@@ -44,10 +42,11 @@ public class ExtentReporterNG extends SetUp
 			    .as(new ViewName[] { 
 				   ViewName.DASHBOARD, 
 				   ViewName.TEST, 
+				   ViewName.CATEGORY,
 				   ViewName.AUTHOR, 
 				   ViewName.DEVICE, 
 				   ViewName.EXCEPTION, 
-				   ViewName.LOG 
+				   ViewName.LOG
 				})
 			  .apply();
 		//ExtentSparkReporter reporter =new ExtentSparkReporter(reportPath).filter().statusFilter().as(new Status [] {Status.FAIL,Status.PASS}).apply().viewConfigurer().viewOrder().as(new ViewName [] {ViewName.DASHBOARD,ViewName.TEST}).apply();
@@ -61,12 +60,14 @@ public class ExtentReporterNG extends SetUp
 		//reporter.config().setReportName("Web Automation Result");
 		//reporter.config().setDocumentTitle("Test Results");
 
-		
 		extent.attachReporter(reporter);
 		extent.setSystemInfo("Project Name","Kotak Mahindra Bank");
-		extent.setSystemInfo("Modules Consist","CRM and DAP Journeys");
-		extent.setSystemInfo("Tester Name","Vrunda Vibhute");
+		//extent.setSystemInfo("Modules Consist","CRM and DAP Journeys");
+		//extent.setSystemInfo("Tester Name","Vrunda Vibhute");
+		extent.setSystemInfo("Test Coverage", CommonMethods.getTestTypes());
+		extent.setSystemInfo("OS", System.getProperty("os.name"));
 
 		return extent;
 	}
+	
 }
