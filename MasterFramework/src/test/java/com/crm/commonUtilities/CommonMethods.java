@@ -7,16 +7,20 @@ import java.awt.event.KeyEvent;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang.UnhandledException;
 import org.apache.poi.EncryptedDocumentException;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -311,6 +315,54 @@ public static boolean isTestRunnable(String testName, String sheetName) throws E
 		return false;
 	}
 
+public static String getModule(String methodName) throws Exception
+{
+		int rows =ExcelOperation.getRowCount("TestScenario");
+		String module = null;
+		
+		for(int rNum=1; rNum<=rows; rNum++){
+			
+			String testCase = ExcelOperation.getCellData("TestScenario", "TC Name", rNum);
+			
+			if(testCase.equalsIgnoreCase(methodName)){
+				
+				module = ExcelOperation.getCellData("TestScenario", "Module", rNum);
+			}
+		}
+		return module;
+}
+
+	public static String getTestTypes()
+	{
+		ArrayList<String> columnData = new ArrayList<String>();
+		String testTypes = null;
+		try {
+			columnData = ExcelOperation.getcolumnData("TestScenario", "Test Type");
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	
+	//To remove duplicates from the array list
+	List<String> newList = columnData.stream().distinct().collect(Collectors.toList());
+	
+	System.out.println("ArrayList with duplicates removed: "
+	        + newList);
+	
+	testTypes = String.join(", ", newList);
+		return testTypes;
+	}
+
+	//To get system info
+	public static String[] getSystemInfo() {
+		String [] sysInfo = new String [2];
+		Capabilities browserCap = ((RemoteWebDriver) driver).getCapabilities();
+		String browserName = browserCap.getBrowserName();
+		String browserVersion = browserCap.getBrowserVersion();
+		sysInfo[0] = browserName;
+		sysInfo[1]= browserVersion;
+		return sysInfo;
+	}
 
 	public static int getTestScenarioRowNum(String testScenario) throws Exception
 	{

@@ -48,7 +48,14 @@ public class TestListeners extends SetUp implements ITestListener, ISuiteListene
 	{
 		String methodName = result.getMethod().getMethodName();
 		//test = extent.createTest(result.getTestClass().getName() + "  @TestCase : " + result.getMethod().getMethodName());
-		test = extent.createTest(result.getTestClass().getName() );
+		try {
+			String module = CommonMethods.getModule(methodName);
+
+			test = extent.createTest(result.getTestClass().getName() ).assignCategory(module);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		extentTest.set(test);
 
@@ -138,7 +145,6 @@ public class TestListeners extends SetUp implements ITestListener, ISuiteListene
 
 	public void onFinish(ITestContext context) {
 		if (extent != null) {
-
 			extent.flush();
 		}
 	}
@@ -151,7 +157,10 @@ public class TestListeners extends SetUp implements ITestListener, ISuiteListene
 	public void onFinish(ISuite arg0) {
 		endTime =  LocalDateTime.now();
 		try {
-		      EmailReporting.sendReportViaEmail(passedtests.size(), failedtests.size(), skippedtests.size(), startTime, endTime);
+			extent.setSystemInfo("Browser Name" , CommonMethods.getSystemInfo()[0].toUpperCase());
+			extent.setSystemInfo("Browser Version" , CommonMethods.getSystemInfo()[1]);
+			extent.flush();
+		    EmailReporting.sendReportViaEmail(passedtests.size(), failedtests.size(), skippedtests.size(), startTime, endTime);  
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
