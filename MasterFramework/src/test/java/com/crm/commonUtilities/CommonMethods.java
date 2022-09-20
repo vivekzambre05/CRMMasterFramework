@@ -346,11 +346,12 @@ public static String getModule(String methodName) throws Exception
 	//To remove duplicates from the array list
 	List<String> newList = columnData.stream().distinct().collect(Collectors.toList());
 	
+	testTypes = String.join(", ", newList);
+	
 	System.out.println("ArrayList with duplicates removed: "
 	        + newList);
 	
-	testTypes = String.join(", ", newList);
-		return testTypes;
+	return testTypes;
 	}
 
 	//To get system info

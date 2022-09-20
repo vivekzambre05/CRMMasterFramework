@@ -157,7 +157,9 @@ public class ExcelOperation
         int lastRowIndex = sheet.getLastRowNum() + 1;
         int colNum = excelColumns.get(colName);
         for (int j = 1; j < lastRowIndex; j++) {
-        	columnData.add(readData(SheetName, j, colNum));
+        	String s = readData(SheetName, j, colNum);
+        	if (!(s.isEmpty() || s.isBlank()))
+        		columnData.add(s);
         }
         
 	return columnData;

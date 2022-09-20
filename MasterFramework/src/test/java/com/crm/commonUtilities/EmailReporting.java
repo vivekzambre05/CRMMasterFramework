@@ -85,7 +85,7 @@ public class EmailReporting {
                 "</head>" +
                 "Dear All,"+
                 "<p> Please find below, the automation execution status for " + config.getProperty("Engagement_Name")+" as below:" +"</p>" + "<p>"
-                		+ "<table><tr><th>Start Time</th><td>"+dtf.format(startTime)+"</td></tr><tr><th>End Time</th><td>"+dtf.format(endTime)+"</td></tr><tr><th>Test Execution Time</th><td>"+ hours +":"+ minutes + "(HH:MM:SS)</td></tr></table><img src=\"cid:image\"><br><br><p>Regards,<br>SAG Automation Team</P>";
+                		+ "<table><tr><th>Start Time</th><td>"+dtf.format(startTime)+"</td></tr><tr><th>End Time</th><td>"+dtf.format(endTime)+"</td></tr><tr><th>Test Execution Time</th><td>"+ hours +":"+ minutes + "(HH:MM)</td></tr></table><img src=\"cid:image\"><br><br><p>Regards,<br>SAG Automation Team</P>";
 		return sb;
 	}
 	
