@@ -47,7 +47,7 @@ public class ScreenShot extends SetUp
 			//folderDate = java.time.LocalDate.now().toString();
 			//folderDate = new SimpleDateFormat("dd-MM-yyyy HH").format(new Date());
 		  
-		   currentDir = System.getProperty("user.dir")+"\\src\\test\\resources\\Results";
+		   currentDir = System.getProperty("user.dir")+"\\Results";
 		   outPutFolder = currentDir +"\\Output_"+folderDate;
 		   
 		   PassScreenShot ="PassScreenShot_"+folderDate;

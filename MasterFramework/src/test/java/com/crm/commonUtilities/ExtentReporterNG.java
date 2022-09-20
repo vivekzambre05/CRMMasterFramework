@@ -19,7 +19,7 @@ public class ExtentReporterNG extends SetUp
 	static ExtentReports extent ;
 	static Logger log = LoggerFactory.getLogger(ExtentReporterNG.class);
 	static String folderDate = new SimpleDateFormat("dd-MM-yyyy HH").format(new Date());
-	public static String currentDir = System.getProperty("user.dir")+"\\src\\test\\resources\\Results";
+	public static String currentDir = System.getProperty("user.dir")+"\\Results";
 	public static String outPutFolder = currentDir +"\\Output_"+folderDate;
 	public static String reportPath = outPutFolder+"\\TestReport_"+folderDate+".html";
 	public static ExtentReports getReportObject()
@@ -50,6 +50,11 @@ public class ExtentReporterNG extends SetUp
 				})
 			  .apply();
 		//ExtentSparkReporter reporter =new ExtentSparkReporter(reportPath).filter().statusFilter().as(new Status [] {Status.FAIL,Status.PASS}).apply().viewConfigurer().viewOrder().as(new ViewName [] {ViewName.DASHBOARD,ViewName.TEST}).apply();
+		
+		 reporter.config().setTimelineEnabled(false);
+		 reporter.config().setCss(".sysenv-container{right:50%} .category-container{left:50%}");
+		 reporter.config().setJs("document.querySelector('.category-container .card .card-header p').innerHTML='Cases/Scenarios';");
+
 		try {
 			reporter.loadXMLConfig(new File(".\\src\\test\\resources\\Extent-Config\\ReportsConfig.xml"));
 		} catch (IOException e) {
