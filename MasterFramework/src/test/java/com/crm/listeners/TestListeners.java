@@ -48,14 +48,10 @@ public class TestListeners extends SetUp implements ITestListener, ISuiteListene
 	{
 		String methodName = result.getMethod().getMethodName();
 		//test = extent.createTest(result.getTestClass().getName() + "  @TestCase : " + result.getMethod().getMethodName());
-		try {
-			String module = CommonMethods.getModule(methodName);
+	
 
-			test = extent.createTest(result.getTestClass().getName() ).assignCategory(module);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			test = extent.createTest(result.getTestClass().getName() );
+		
 
 		extentTest.set(test);
 
@@ -69,6 +65,9 @@ public class TestListeners extends SetUp implements ITestListener, ISuiteListene
 		Markup m = MarkupHelper.createLabel(logText, ExtentColor.GREEN);
 		extentTest.get().pass(m);
         passedtests.add(result.getMethod());
+        
+        assignCategory(methodName);
+
 
 
 		log.info("Test Case_" + methodName + "_Successfully Passed");
@@ -108,6 +107,8 @@ public class TestListeners extends SetUp implements ITestListener, ISuiteListene
 						+ "</font>" + "</b >" + "</summary>" + excepionMessage.replaceAll(",", "<br>") + "</details>"
 						+ " \n");
         failedtests.add(result.getMethod());
+        
+        assignCategory(methodName);
 
 		try {
 			ScreenShot.takeSnapShot(methodName, "Fail");
@@ -135,7 +136,9 @@ public class TestListeners extends SetUp implements ITestListener, ISuiteListene
 		String methodName = result.getMethod().getMethodName();
 		String logText = "<b>" + "Test Case:- " + methodName + " Skipped" + "</b>";
 		Markup m = MarkupHelper.createLabel(logText, ExtentColor.YELLOW);
-		extentTest.get().skip(m);
+		//extentTest.get().skip(m);
+		extent.removeTest(test);
+		
         skippedtests.add(result.getMethod());
 
 		log.info("Test Case_" + methodName + "_get Skipped as its Runmode is 'NO' ");
@@ -162,6 +165,17 @@ public class TestListeners extends SetUp implements ITestListener, ISuiteListene
 			extent.flush();
 		    EmailReporting.sendReportViaEmail(passedtests.size(), failedtests.size(), skippedtests.size(), startTime, endTime);  
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void assignCategory(String methodName) {
+		try {
+			String module = CommonMethods.getModule(methodName);
+
+			test.assignCategory(module);
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
