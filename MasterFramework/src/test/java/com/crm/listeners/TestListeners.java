@@ -48,11 +48,9 @@ public class TestListeners extends SetUp implements ITestListener, ISuiteListene
 	{
 		String methodName = result.getMethod().getMethodName();
 		//test = extent.createTest(result.getTestClass().getName() + "  @TestCase : " + result.getMethod().getMethodName());
-	
 
-			test = extent.createTest(result.getTestClass().getName() );
+		test = extent.createTest(result.getTestClass().getName() );
 		
-
 		extentTest.set(test);
 
 		log.info("Test Case_" + methodName+ "_Successfully Started");
@@ -136,7 +134,6 @@ public class TestListeners extends SetUp implements ITestListener, ISuiteListene
 		String methodName = result.getMethod().getMethodName();
 		String logText = "<b>" + "Test Case:- " + methodName + " Skipped" + "</b>";
 		Markup m = MarkupHelper.createLabel(logText, ExtentColor.YELLOW);
-		//extentTest.get().skip(m);
 		extent.removeTest(test);
 		
         skippedtests.add(result.getMethod());

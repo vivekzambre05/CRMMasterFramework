@@ -53,8 +53,8 @@ public class ExtentReporterNG extends SetUp
 		
 		 reporter.config().setTimelineEnabled(false);
 		 reporter.config().setCss(".sysenv-container{right:50%} .category-container{left:50%}");
-		 reporter.config().setJs("document.querySelector('.category-container .card .card-header p').innerHTML='Cases/Scenarios';");
-
+		 reporter.config().setJs("document.querySelector('.category-container .card .card-header p').innerHTML='Cases/Scenarios <br> Note: Skipped Tests - Either not selected during run / error during run';");
+		 
 		try {
 			reporter.loadXMLConfig(new File(".\\src\\test\\resources\\Extent-Config\\ReportsConfig.xml"));
 		} catch (IOException e) {
