@@ -174,6 +174,37 @@ public class ExcelOperation
 	return columnData;
 
 	}
+	
+	public static int getRunnableCount() throws IOException
+	{	
+        int count =0;
+
+		File f = new File(ExcelPATH);
+
+		//Create an object of FileInputStream class to read excel file
+		inputStream = new FileInputStream(f);
+
+		//creating workbook instance that refers to .xls file
+		wb=new XSSFWorkbook(inputStream); 
+
+		sheet = wb.getSheet("TestScenario");
+		
+		//adding all the column header names to the map 'columns'
+		sheet.getRow(0).forEach(cell ->{
+			excelColumns.put(cell.getStringCellValue(), cell.getColumnIndex());
+		});
+				
+        int lastRowIndex = sheet.getLastRowNum() + 1;
+        for (int j = 1; j < lastRowIndex; j++) {
+        	String runmode = ExcelOperation.getCellData("TestScenario", "RunMode", j);
+			if(runmode.equalsIgnoreCase("Yes"))
+	        	count++;
+			
+        }
+        
+        return count;
+
+	}
 
 	//To read excel data using column header
 	public static String getCellData(String SheetName ,String columnName, int rowNum) throws EncryptedDocumentException, IOException 

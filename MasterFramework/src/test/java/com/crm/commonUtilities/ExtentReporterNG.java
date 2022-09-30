@@ -19,7 +19,7 @@ public class ExtentReporterNG extends SetUp
 	public static File flOutput;
 	static ExtentReports extent ;
 	static Logger log = LoggerFactory.getLogger(ExtentReporterNG.class);
-	static String folderDate = new SimpleDateFormat("dd-MM-yyyy_HH").format(new Date());
+	static String folderDate = new SimpleDateFormat("dd-MM-yyyy HH").format(new Date());
 	public static String currentDir = System.getProperty("user.dir")+"\\Results";
 	public static String outPutFolder = currentDir +"\\Output_"+folderDate;
 	public static String reportPath = outPutFolder+"\\TestReport_"+folderDate+".html";
@@ -29,9 +29,15 @@ public class ExtentReporterNG extends SetUp
 	{
 		//String reportPath = System.getProperty("user.dir")+"\\Reports\\KMB_LeadCreationReport_"+folderDate;
 		extent = new ExtentReports();
-		System.out.println("*********");
-		System.out.println(outPutFolder);
-		System.out.println("*********");
+		
+		flOutput = new File(currentDir);
+		if(!flOutput.exists()) {
+			if(flOutput.mkdir()) {
+				log.info("Reports Directory is created!");
+			}
+			else {
+				log.error("Failed to create reports directory!");
+			}		}
 		flOutput = new File(outPutFolder);
 		if(!flOutput.exists()) {
 			if(flOutput.mkdir()) {

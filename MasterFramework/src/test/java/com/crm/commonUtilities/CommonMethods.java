@@ -10,6 +10,7 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Properties;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -37,6 +38,8 @@ public class CommonMethods extends SetUp
 	public static WebDriverWait wait ;
 	public static Actions a ;
 	public static Logger log = LoggerFactory.getLogger(CommonMethods.class);
+	public static Properties prop=new Properties();
+
 	
 	public static void ExWait(String locator) throws Exception
 	{

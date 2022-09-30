@@ -1,12 +1,18 @@
 package com.crm.listeners;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 
 import org.testng.ISuite;
 import org.testng.ISuiteListener;
@@ -44,6 +50,11 @@ public class TestListeners extends SetUp implements ITestListener, ISuiteListene
 	public static LocalDateTime endTime;
     SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");  
     
+    static File statusFile = new File("status.txt");
+    static FileWriter myWriter;
+    static int testCount = 0;
+
+    
 	public void onTestStart(ITestResult result) 
 	{
 		String methodName = result.getMethod().getMethodName();
@@ -58,7 +69,9 @@ public class TestListeners extends SetUp implements ITestListener, ISuiteListene
 
 	public void onTestSuccess(ITestResult result) {
 		
-    	String methodName = result.getMethod().getMethodName();
+		testCount++;
+		modifyExecutionStatus();
+		String methodName = result.getMethod().getMethodName();
 		String logText = "<b>" + "Test Case:- " + methodName+ " PASSED" + "</b>";
 		Markup m = MarkupHelper.createLabel(logText, ExtentColor.GREEN);
 		extentTest.get().pass(m);
@@ -94,7 +107,8 @@ public class TestListeners extends SetUp implements ITestListener, ISuiteListene
 	
 	public void onTestFailure(ITestResult result)
 	{
-		
+		testCount++;
+		modifyExecutionStatus();
 		String methodName = result.getMethod().getMethodName();
 		log.error(methodName+ " Get Failed due to " + "\n" + result.getThrowable().getMessage());
 
@@ -151,7 +165,28 @@ public class TestListeners extends SetUp implements ITestListener, ISuiteListene
 	
 	public void onStart(ISuite arg0) {
 		startTime =  LocalDateTime.now();
-
+		try {
+		      if(statusFile.exists()) {
+			        System.out.println("Status file already exists. Deleting it..");
+			        statusFile.delete();
+		      }
+			        if (statusFile.createNewFile()) {
+				        System.out.println("File created: " + statusFile.getName());
+				      }
+			      
+		      
+		    } catch (IOException e) {
+		      System.out.println("An error occurred.");
+		      e.printStackTrace();
+		    }
+		try {
+				myWriter = new FileWriter(statusFile.getName());
+				myWriter.write("Total number of tests selected with runnable mode as YES: " + ExcelOperation.getRunnableCount());
+				myWriter.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public void onFinish(ISuite arg0) {
@@ -161,6 +196,8 @@ public class TestListeners extends SetUp implements ITestListener, ISuiteListene
 			extent.setSystemInfo("Browser Version" , CommonMethods.getSystemInfo()[1]);
 			extent.flush();
 		    EmailReporting.sendReportViaEmail(passedtests.size(), failedtests.size(), skippedtests.size(), startTime, endTime);  
+			writeStatus("Execution status mail sent.");
+
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -177,6 +214,58 @@ public class TestListeners extends SetUp implements ITestListener, ISuiteListene
 			e.printStackTrace();
 		}
 	}
+	
+	//To write data into status file
+	public static void writeStatus(String status) {
+
+		try {			
+			 BufferedWriter out = new BufferedWriter(
+		                new FileWriter(statusFile.getName(), true));
+		 
+		            // Writing on output stream
+		            out.write("\n"+ status);
+		            // Closing the connection
+		            out.close();
+		     
+		      System.out.println("Successfully wrote to the file.");
+		    } catch (IOException e) {
+		      System.out.println("An error occurred.");
+		      e.printStackTrace();
+		    }
+	}
+	
+	//To overwrite the test execution Status in the file
+	public static void modifyExecutionStatus() {
+		 try {
+			 	String filePath = statusFile.getAbsolutePath();
+			 	String result = fileToString(filePath);
+			 	String oldStatus = "Tests Completed - "+(testCount - 1);
+			 	String newStatus = "\nTests Completed - "+ testCount;
+			 	if(result.contains(oldStatus))
+			 		result = result.replaceAll(oldStatus,newStatus);
+			 	else
+			 		result = result.concat(newStatus);
+			     //Rewriting the contents of the file
+			     PrintWriter writer = new PrintWriter(new File(filePath));
+			     writer.append(result);
+			     writer.flush();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	//To return the file contents as a string
+	public static String fileToString(String filePath) throws Exception{
+	      String input = null;
+	      Scanner sc = new Scanner(new File(filePath));
+	      StringBuffer sb = new StringBuffer();
+	      while (sc.hasNextLine()) {
+	         input = sc.nextLine();
+	         sb.append(input);
+	      }
+	      return sb.toString();
+	   }
 }
 
 	
