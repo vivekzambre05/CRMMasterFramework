@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Properties;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,20 +14,24 @@ import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 import com.aventstack.extentreports.reporter.configuration.ViewName;
 import com.crm.base.SetUp;
 
-public class ExtentReporterNG extends SetUp 
+public class ExtentReporterNG extends SetUp
 {
 	public static File flOutput;
 	static ExtentReports extent ;
 	static Logger log = LoggerFactory.getLogger(ExtentReporterNG.class);
-	static String folderDate = new SimpleDateFormat("dd-MM-yyyy HH").format(new Date());
+	static String folderDate = new SimpleDateFormat("dd-MM-yyyy_HH").format(new Date());
 	public static String currentDir = System.getProperty("user.dir")+"\\Results";
 	public static String outPutFolder = currentDir +"\\Output_"+folderDate;
 	public static String reportPath = outPutFolder+"\\TestReport_"+folderDate+".html";
+	public static Properties config = SetUp.loadConfig();
+
 	public static ExtentReports getReportObject()
 	{
 		//String reportPath = System.getProperty("user.dir")+"\\Reports\\KMB_LeadCreationReport_"+folderDate;
 		extent = new ExtentReports();
-
+		System.out.println("*********");
+		System.out.println(outPutFolder);
+		System.out.println("*********");
 		flOutput = new File(outPutFolder);
 		if(!flOutput.exists()) {
 			if(flOutput.mkdir()) {
@@ -56,7 +61,7 @@ public class ExtentReporterNG extends SetUp
 		 reporter.config().setJs("document.querySelector('.category-container .card .card-header p').innerHTML='Cases/Scenarios <br> Note: Skipped Tests - Either not selected during run / error during run';");
 		 
 		try {
-			reporter.loadXMLConfig(new File(".\\src\\test\\resources\\Extent-Config\\ReportsConfig.xml"));
+			reporter.loadXMLConfig(new File(System.getProperty("user.dir") + config.getProperty("ExtentConfigXml")));
 		} catch (IOException e) {
 			log.error("Unable to load config.xml file due to "+e.getMessage());
 		}
@@ -67,8 +72,6 @@ public class ExtentReporterNG extends SetUp
 
 		extent.attachReporter(reporter);
 		extent.setSystemInfo("Project Name","Kotak Mahindra Bank");
-		//extent.setSystemInfo("Modules Consist","CRM and DAP Journeys");
-		//extent.setSystemInfo("Tester Name","Vrunda Vibhute");
 		extent.setSystemInfo("Test Coverage", CommonMethods.getTestTypes());
 		extent.setSystemInfo("OS", System.getProperty("os.name"));
 

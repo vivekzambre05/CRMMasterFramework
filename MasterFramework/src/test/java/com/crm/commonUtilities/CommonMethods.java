@@ -384,11 +384,7 @@ public static String getModule(String methodName) throws Exception
 
 	public static String readPropertyFile(String propertyName)throws UnhandledException, IOException
 	{
-		//Properties prop=new Properties();
-		String currentDir =System.getProperty("user.dir");
-		FileInputStream fis =new FileInputStream(currentDir+"\\src\\test\\resources\\PropertyFiles\\Config.properties");
-
-		prop.load(fis);
+		prop = SetUp.loadConfig();
 		String propertyValue=prop.getProperty(propertyName);
 		
 		return propertyValue;
