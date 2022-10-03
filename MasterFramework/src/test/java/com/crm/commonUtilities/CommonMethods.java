@@ -10,6 +10,7 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Properties;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -37,6 +38,8 @@ public class CommonMethods extends SetUp
 	public static WebDriverWait wait ;
 	public static Actions a ;
 	public static Logger log = LoggerFactory.getLogger(CommonMethods.class);
+	public static Properties prop=new Properties();
+
 	
 	public static void ExWait(String locator) throws Exception
 	{
@@ -384,11 +387,7 @@ public static String getModule(String methodName) throws Exception
 
 	public static String readPropertyFile(String propertyName)throws UnhandledException, IOException
 	{
-		//Properties prop=new Properties();
-		String currentDir =System.getProperty("user.dir");
-		FileInputStream fis =new FileInputStream(currentDir+"\\src\\test\\resources\\PropertyFiles\\Config.properties");
-
-		prop.load(fis);
+		prop = SetUp.loadConfig();
 		String propertyValue=prop.getProperty(propertyName);
 		
 		return propertyValue;

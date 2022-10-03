@@ -1,5 +1,8 @@
 package com.crm.base;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Properties;
 
 import org.openqa.selenium.WebDriver;
@@ -22,7 +25,7 @@ public class SetUp
 {
 	public static WebDriver driver;
 	public static Properties prop=new Properties();
-	protected static Logger log = LoggerFactory.getLogger(SetUp.class);
+    protected static Logger log = LoggerFactory.getLogger(SetUp.class);
 
 	public static void setUpTest1(String sheetName)throws Exception
 	{
@@ -58,6 +61,32 @@ public class SetUp
 		  driver.close();
 		  driver.quit(); 
 		  log.info("Browser Closed..");
+	}
+	
+	public static Properties loadConfig() {
+		  Properties config = new Properties();
+
+		  FileInputStream fis = null;
+		
+		try {
+
+			fis = new FileInputStream(
+					System.getProperty("user.dir") + "\\src\\test\\resources\\PropertyFiles\\Config.properties");
+			//comment the previous two lines and Uncomment this for exporting the code as jar.
+			//fis = new FileInputStream(
+					 // System.getProperty("user.dir") + "\\resources\\PropertyFiles\\Config.properties");
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			config.load(fis);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return config;
 	}
 
 

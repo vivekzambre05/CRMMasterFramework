@@ -5,7 +5,6 @@ import java.io.*;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Properties;
 import javax.activation.*;
@@ -20,9 +19,13 @@ import org.jfree.data.general.DefaultPieDataset;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.crm.base.SetUp;
+
 public class EmailReporting {
 	
-	public static Properties config = new Properties();
+	public static Properties emailConfig = new Properties();
+	public static Properties config = SetUp.loadConfig();
+
 	
 	public static FileInputStream fis;
 	
@@ -84,7 +87,7 @@ public class EmailReporting {
                 "</style>" +
                 "</head>" +
                 "Dear All,"+
-                "<p> Please find below, the automation execution status for " + config.getProperty("Engagement_Name")+" as below:" +"</p>" + "<p>"
+                "<p> Please find below, the automation execution status for " + emailConfig.getProperty("Engagement_Name")+" as below:" +"</p>" + "<p>"
                 		+ "<table><tr><th>Start Time</th><td>"+dtf.format(startTime)+"</td></tr><tr><th>End Time</th><td>"+dtf.format(endTime)+"</td></tr><tr><th>Test Execution Time</th><td>"+ hours +":"+ minutes + "(HH:MM)</td></tr></table><img src=\"cid:image\"><br><br><p>Regards,<br>SAG Automation Team</P>";
 		return sb;
 	}
@@ -92,14 +95,14 @@ public class EmailReporting {
 	public static void loadConfig() {
 		try {
 			fis = new FileInputStream(
-					System.getProperty("user.dir") + "\\src\\test\\resources\\PropertyFiles\\EmailConfig.properties");
+					System.getProperty("user.dir") + config.getProperty("EmailConfig"));
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		try {
-			config.load(fis);
-			log.debug("Config file loaded !!!");
+			emailConfig.load(fis);
+			log.debug("Email Config file loaded !!!");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -111,13 +114,13 @@ public class EmailReporting {
 		
 		  loadConfig();
 		  String fileName = "";
-	      String to = config.getProperty("to");
-	      String from = config.getProperty("from");
+	      String to = emailConfig.getProperty("to");
+	      String from = emailConfig.getProperty("from");
 
-	      final String username = config.getProperty("userName");
-	      final String password = config.getProperty("password");
+	      final String username = emailConfig.getProperty("userName");
+	      final String password = emailConfig.getProperty("password");
 
-		  String host = config.getProperty("host");
+		  String host = emailConfig.getProperty("host");
 
 	      Properties props = new Properties();
 	      props.put("mail.smtp.auth", "true");
@@ -144,7 +147,7 @@ public class EmailReporting {
 	               InternetAddress.parse(to));
 		
 		   // Set Subject: header field
-		   message.setSubject(config.getProperty("subject")+ " | " + LocalDate.now()+" | "+config.getProperty("Engagement_Name"));
+		   message.setSubject(emailConfig.getProperty("subject")+ " | " + LocalDate.now()+" | "+emailConfig.getProperty("Engagement_Name"));
 		
 		   BodyPart messageBodyPart = new MimeBodyPart();
 
@@ -194,6 +197,7 @@ public class EmailReporting {
 		   Transport.send(message);
 
 		   log.info("Test Report Mail sent successfully to "+to);
+		   System.out.println("Test Report Mail sent successfully to "+to);
 
 	      } catch (MessagingException e) {
 	         throw new RuntimeException(e);

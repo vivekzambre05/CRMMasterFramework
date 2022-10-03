@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -29,6 +30,9 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.crm.base.SetUp;
+
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -47,7 +51,8 @@ public class ExcelOperation
 	public static Logger log = LoggerFactory.getLogger(ExcelOperation.class);
 
 	static HashMap<String, Integer> excelColumns = new HashMap<String, Integer>();
-	static String ExcelPATH = System.getProperty("user.dir")+"\\src\\test\\resources\\TestData\\AutomationTestData.xlsx";
+	public static Properties config = SetUp.loadConfig();
+	static String ExcelPATH =  System.getProperty("user.dir")+ config.getProperty("ExcelData");
 	public static int getRowCount(String sheet) throws IOException
 	{
 		File f = new File(ExcelPATH);
@@ -167,6 +172,37 @@ public class ExcelOperation
         }
         
 	return columnData;
+
+	}
+	
+	public static int getRunnableCount() throws IOException
+	{	
+        int count =0;
+
+		File f = new File(ExcelPATH);
+
+		//Create an object of FileInputStream class to read excel file
+		inputStream = new FileInputStream(f);
+
+		//creating workbook instance that refers to .xls file
+		wb=new XSSFWorkbook(inputStream); 
+
+		sheet = wb.getSheet("TestScenario");
+		
+		//adding all the column header names to the map 'columns'
+		sheet.getRow(0).forEach(cell ->{
+			excelColumns.put(cell.getStringCellValue(), cell.getColumnIndex());
+		});
+				
+        int lastRowIndex = sheet.getLastRowNum() + 1;
+        for (int j = 1; j < lastRowIndex; j++) {
+        	String runmode = ExcelOperation.getCellData("TestScenario", "RunMode", j);
+			if(runmode.equalsIgnoreCase("Yes"))
+	        	count++;
+			
+        }
+        
+        return count;
 
 	}
 
