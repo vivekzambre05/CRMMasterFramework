@@ -9,5 +9,5 @@ To run the jar:
 
 1. Automation folder should have the jar as well as resources folder with all sub folders present in it. 
 2. Move log4j2.xml to the Automation folder (where jar file is placed) from the resources folder. 
-2. Double click on the jar to run it in headless mode.
-3. To check the execution, Open command prompt -> Navigate to Automation folder in desktop and type java -jar "JARNAME.jar"
+2. Double click on the jar to start the execution.
+3. You can also star the execution by the following: Open command prompt -> Navigate to Automation folder in desktop and type java -jar "JARNAME.jar"
