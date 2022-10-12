@@ -1,5 +1,8 @@
 package com.crm.base;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 import java.util.Properties;
 import org.testng.TestNG;
@@ -7,13 +10,19 @@ import org.testng.collections.Lists;
 
 public class TestRunner {
 	public static Properties config = new Properties();
+	public static String runID = null;
 
 
 	static TestNG testng;
 	public static void main(String[] args) throws ClassNotFoundException {
 		// TODO Auto-generated method stub
-
 		config = SetUp.loadConfig();
+		
+		runID = args[0];
+		System.out.println("Run ID from command line arguments: "+ runID);
+		//To set the path of the emailConfig, extent report name and TestData Excel
+		if(runID != null)
+			setConfig();
 
 		TestNG testng = new TestNG();
 
@@ -30,6 +39,38 @@ public class TestRunner {
 		}
 		testng.setTestSuites(suites);
 		testng.run();
+	}
+	
+	public static void setConfig() {
+		FileOutputStream out = null;
+		
+		try {
+
+			out = new FileOutputStream(
+					System.getProperty("user.dir") + "\\src\\test\\resources\\PropertyFiles\\Config.properties");
+			//comment the previous two lines and Uncomment this for exporting the code as jar.
+			//out = new FileOutputStream(
+					 //System.getProperty("user.dir") + "\\resources\\PropertyFiles\\Config.properties");
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
+		config.setProperty("ExcelData", "\\AutomationsFiles\\"+runID+".xlsm");
+		config.setProperty("EmailConfig", "\\AutomationsFiles\\email_"+runID+".properties");
+		config.setProperty("Report", runID);
+		try {
+			config.store(out, "Modified properties according to runID");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			try {
+				out.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
 }
