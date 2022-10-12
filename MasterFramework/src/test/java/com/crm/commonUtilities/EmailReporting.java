@@ -2,11 +2,20 @@ package com.crm.commonUtilities;
 
 import java.awt.Color;
 import java.io.*;
+import java.nio.file.FileVisitResult;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.SimpleFileVisitor;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Properties;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
+
 import javax.activation.*;
 import javax.mail.*;
 import javax.mail.internet.*;
@@ -108,7 +117,18 @@ public class EmailReporting {
 			e.printStackTrace();
 		}
 	}
-	
+	private static void zipFolder(Path sourceFolderPath, Path zipPath) throws Exception {
+        ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(zipPath.toFile()));
+        Files.walkFileTree(sourceFolderPath, new SimpleFileVisitor<Path>() {
+            public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+                zos.putNextEntry(new ZipEntry(sourceFolderPath.relativize(file).toString()));
+                Files.copy(file, zos);
+                zos.closeEntry();
+                return FileVisitResult.CONTINUE;
+            }
+        });
+        zos.close();
+    }
 
 	public static void sendReportViaEmail(int passedTests, int failedTests, int skippedTests, LocalDateTime startTime, LocalDateTime endTime) throws FileNotFoundException {
 		
@@ -173,15 +193,26 @@ public class EmailReporting {
 	         
 	       multipart.addBodyPart(messageBodyPart);
 
-	       // Part three is attachment
-	       messageBodyPart = new MimeBodyPart();
+	     //File f = getLatestReport();
+	      
+	       //To zip the results folder
+	       try {
+	    	   String folderToZip = System.getProperty("user.dir")+"\\Results";
+	           String zipName = config.getProperty("ZipFile")+".zip";
+	           zipFolder(Paths.get(folderToZip), Paths.get(zipName));
+	       } catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	       
-	       File f = getLatestReport();
+	       File f = new File(System.getProperty("user.dir")+ "//"+ config.getProperty("ZipFile")+".zip");
 	       if(f!= null)
 	    	   fileName = f.getPath();
 	       else
-	    	   log.debug("Latest report not found");
-	       
+	    	   log.debug("Zip file not found");
+	       // Part three is attachment
+	       messageBodyPart = new MimeBodyPart();
+
 	       DataSource source = new FileDataSource(fileName);
 	       messageBodyPart.setDataHandler(new DataHandler(source));
 	       //messageBodyPart.setFileName(filename);
@@ -192,7 +223,7 @@ public class EmailReporting {
 
 	       // Send the complete message parts
 	       message.setContent(multipart);
-
+	       
 		   // Send message
 		   Transport.send(message);
 

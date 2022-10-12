@@ -27,8 +27,7 @@ public class ScreenShot extends SetUp
 
 	
 	//Variables for Screenshots location 
-		public static String currentDir;
-		public static String outPutFolder;
+		public static String resultDir;
 		public static String PassScreenShotFolder ;
 		public static String FailedScreenShotFolder;
 		public static File flOutput;
@@ -47,24 +46,23 @@ public class ScreenShot extends SetUp
 			//folderDate = java.time.LocalDate.now().toString();
 			//folderDate = new SimpleDateFormat("dd-MM-yyyy HH").format(new Date());
 		  
-		   currentDir = System.getProperty("user.dir")+"\\Results";
-		   outPutFolder = currentDir +"\\Output_"+folderDate;
+		resultDir = System.getProperty("user.dir")+"\\Results";
 		   
-		   PassScreenShot ="PassScreenShot_"+folderDate;
-		   PassScreenShotFolder = outPutFolder+"\\"+PassScreenShot;
+		   PassScreenShot ="PassScreenShot";
+		   PassScreenShotFolder = resultDir+"\\"+PassScreenShot;
 		   
-		   FailedScreenShot = "FailedScreenShot_"+folderDate;
-		   FailedScreenShotFolder = outPutFolder+"\\"+FailedScreenShot;
+		   FailedScreenShot = "FailedScreenShot";
+		   FailedScreenShotFolder = resultDir+"\\"+FailedScreenShot;
 
-			flOutput = new File(outPutFolder);
+			flOutput = new File(resultDir);
 			if(!flOutput.exists()) {
 				if(flOutput.mkdir()) {
-					System.out.println("Directory is created!");
-					log.debug("Output Directory Created..");
+					System.out.println("Result Directory is created!");
+					log.debug("Result Directory Created..");
 					}
 				else {
-	                System.out.println("Failed to create directory!");
-	                log.error("Failed to Create Output Directory ");
+	                System.out.println("Failed to create result directory!");
+	                log.error("Failed to Create result Directory ");
 					}
 				}
 			

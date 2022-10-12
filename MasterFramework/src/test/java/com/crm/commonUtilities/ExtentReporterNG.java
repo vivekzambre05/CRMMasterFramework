@@ -20,31 +20,24 @@ public class ExtentReporterNG extends SetUp
 	static ExtentReports extent ;
 	static Logger log = LoggerFactory.getLogger(ExtentReporterNG.class);
 	static String folderDate = new SimpleDateFormat("dd-MM-yyyy HH").format(new Date());
-	public static String currentDir = System.getProperty("user.dir")+"\\Results";
-	public static String outPutFolder = currentDir +"\\Output_"+folderDate;
-	public static String reportPath = outPutFolder+"\\TestReport_"+folderDate+".html";
+	//public static String currentDir = System.getProperty("user.dir")+"\\Results";
+	public static String resultFolder = System.getProperty("user.dir")+"\\Results";
 	public static Properties config = SetUp.loadConfig();
+	public static String reportPath = resultFolder+"\\"+config.getProperty("Report")+".html";
+
 
 	public static ExtentReports getReportObject()
 	{
 		//String reportPath = System.getProperty("user.dir")+"\\Reports\\KMB_LeadCreationReport_"+folderDate;
 		extent = new ExtentReports();
 		
-		flOutput = new File(currentDir);
+		flOutput = new File(resultFolder);
 		if(!flOutput.exists()) {
 			if(flOutput.mkdir()) {
-				log.info("Reports Directory is created!");
+				log.info("Result Directory is created!");
 			}
 			else {
-				log.error("Failed to create reports directory!");
-			}		}
-		flOutput = new File(outPutFolder);
-		if(!flOutput.exists()) {
-			if(flOutput.mkdir()) {
-				log.info("Extent report Directory is created!");
-			}
-			else {
-				log.error("Failed to create extent report directory!");
+				log.error("Failed to create result directory!");
 			}
 		}
 
