@@ -20,7 +20,7 @@
 		<reportName>
 		
 			<![CDATA[
-      			<img src='./logos/crmimg.jpg'/>
+      			<img src='../../src/test/resources/logos/crmimg.jpg'/>
      		 ]]>
 		</reportName>
 
