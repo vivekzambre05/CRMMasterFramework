@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Properties;
 
 import javax.imageio.ImageIO;
 import org.apache.commons.io.FileUtils;
@@ -27,7 +28,8 @@ public class ScreenShot extends SetUp
 
 	
 	//Variables for Screenshots location 
-		public static String resultDir;
+		public static String currentDir;
+		public static String outPutFolder;
 		public static String PassScreenShotFolder ;
 		public static String FailedScreenShotFolder;
 		public static File flOutput;
@@ -38,6 +40,8 @@ public class ScreenShot extends SetUp
 		
 		public static String ScreenShotPath;
 		public static String ScreenShotName;
+		public static Properties config = SetUp.loadConfig();
+
 
 	
 	//Create a folder to save Pass screenshots	
@@ -46,23 +50,35 @@ public class ScreenShot extends SetUp
 			//folderDate = java.time.LocalDate.now().toString();
 			//folderDate = new SimpleDateFormat("dd-MM-yyyy HH").format(new Date());
 		  
-		resultDir = System.getProperty("user.dir")+"\\Results";
+			currentDir = System.getProperty("user.dir")+"\\Results";
+			
+			if(config.getProperty("RunExecutedFromJar").equalsIgnoreCase("YES"))
+			{
+				String runID = config.getProperty("RunID");
+				outPutFolder = currentDir +"\\" + runID;
+				PassScreenShot = runID + "_PassScreenShot";
+				PassScreenShotFolder = outPutFolder+"\\"+PassScreenShot;
+				FailedScreenShot = runID + "_FailedScreenShot";
+				FailedScreenShotFolder = outPutFolder+"\\"+FailedScreenShot;
+			}
+			else
+			{
+				outPutFolder = currentDir +"\\Output_"+folderDate;
+				PassScreenShot ="PassScreenShot_"+folderDate;
+				PassScreenShotFolder = outPutFolder+"\\"+PassScreenShot;
+				FailedScreenShot = "FailedScreenShot_"+folderDate;
+				FailedScreenShotFolder = outPutFolder+"\\"+FailedScreenShot;
+			}
 		   
-		   PassScreenShot ="PassScreenShot";
-		   PassScreenShotFolder = resultDir+"\\"+PassScreenShot;
-		   
-		   FailedScreenShot = "FailedScreenShot";
-		   FailedScreenShotFolder = resultDir+"\\"+FailedScreenShot;
-
-			flOutput = new File(resultDir);
+			flOutput = new File(outPutFolder);
 			if(!flOutput.exists()) {
 				if(flOutput.mkdir()) {
-					System.out.println("Result Directory is created!");
-					log.debug("Result Directory Created..");
+					System.out.println("Directory is created!");
+					log.debug("Output Directory Created..");
 					}
 				else {
-	                System.out.println("Failed to create result directory!");
-	                log.error("Failed to Create result Directory ");
+					System.out.println("Failed to create directory!");
+	                log.error("Failed to Create Output Directory ");
 					}
 				}
 			

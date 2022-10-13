@@ -33,6 +33,7 @@ import com.crm.base.SetUp;
 public class EmailReporting {
 	
 	public static Properties emailConfig = new Properties();
+	public static Properties toConfig = new Properties();
 	public static Properties config = SetUp.loadConfig();
 
 	
@@ -129,12 +130,21 @@ public class EmailReporting {
         });
         zos.close();
     }
+	
+	//To retrieve the email ids to which mail should be sent
+	private static String getToEmailIds() throws IOException {
+		
+		String data = "";
+	    data = new String(Files.readAllBytes(Paths.get(System.getProperty("user.dir") + config.getProperty("ToEmailConfig"))));
+	    return data;
+		
+	}
 
-	public static void sendReportViaEmail(int passedTests, int failedTests, int skippedTests, LocalDateTime startTime, LocalDateTime endTime) throws FileNotFoundException {
+	public static void sendReportViaEmail(int passedTests, int failedTests, int skippedTests, LocalDateTime startTime, LocalDateTime endTime) throws IOException {
 		
 		  loadConfig();
 		  String fileName = "";
-	      String to = emailConfig.getProperty("to");
+	      String to = getToEmailIds();
 	      String from = emailConfig.getProperty("from");
 
 	      final String username = emailConfig.getProperty("userName");
@@ -193,23 +203,13 @@ public class EmailReporting {
 	         
 	       multipart.addBodyPart(messageBodyPart);
 
-	     //File f = getLatestReport();
-	      
-	       //To zip the results folder
-	       try {
-	    	   String folderToZip = System.getProperty("user.dir")+"\\Results";
-	           String zipName = config.getProperty("ZipFile")+".zip";
-	           zipFolder(Paths.get(folderToZip), Paths.get(zipName));
-	       } catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+	       File f = getLatestReport();
 	       
-	       File f = new File(System.getProperty("user.dir")+ "//"+ config.getProperty("ZipFile")+".zip");
 	       if(f!= null)
 	    	   fileName = f.getPath();
 	       else
-	    	   log.debug("Zip file not found");
+	    	   log.debug("Latest report is not found");
+	       
 	       // Part three is attachment
 	       messageBodyPart = new MimeBodyPart();
 

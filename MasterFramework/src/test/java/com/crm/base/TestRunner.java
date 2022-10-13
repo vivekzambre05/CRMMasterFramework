@@ -17,12 +17,12 @@ public class TestRunner {
 	public static void main(String[] args) throws ClassNotFoundException {
 		// TODO Auto-generated method stub
 		config = SetUp.loadConfig();
-		
-		runID = args[0];
-		System.out.println("Run ID from command line arguments: "+ runID);
-		//To set the path of the emailConfig, extent report name and TestData Excel
-		if(runID != null)
+		if (args.length != 0) {
+			runID = args[0];
+			System.out.println("Run ID from command line arguments: "+ runID);
+			//To set the path of the emailConfig, extent report name and TestData Excel
 			setConfig();
+		}
 
 		TestNG testng = new TestNG();
 
@@ -45,19 +45,18 @@ public class TestRunner {
 		FileOutputStream out = null;
 		
 		try {
-
 			out = new FileOutputStream(
-					System.getProperty("user.dir") + "\\src\\test\\resources\\PropertyFiles\\Config.properties");
-			//comment the previous two lines and Uncomment this for exporting the code as jar.
-			//out = new FileOutputStream(
-					 //System.getProperty("user.dir") + "\\resources\\PropertyFiles\\Config.properties");
+					 System.getProperty("user.dir") + "\\resources\\PropertyFiles\\Config.properties");
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}		
 		config.setProperty("ExcelData", "\\AutomationsFiles\\"+runID+".xlsm");
-		config.setProperty("EmailConfig", "\\AutomationsFiles\\email_"+runID+".properties");
+		config.setProperty("ToEmailConfig", "\\AutomationsFiles\\email_"+runID+".txt");
 		config.setProperty("Report", runID);
+		config.setProperty("RunID", runID);
+		config.setProperty("RunExecutedFromJar", "YES");
+
 		try {
 			config.store(out, "Modified properties according to runID");
 		} catch (IOException e) {

@@ -2,10 +2,13 @@ package com.crm.commonUtilities;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.poi.sl.draw.geom.Path;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,10 +23,10 @@ public class ExtentReporterNG extends SetUp
 	static ExtentReports extent ;
 	static Logger log = LoggerFactory.getLogger(ExtentReporterNG.class);
 	static String folderDate = new SimpleDateFormat("dd-MM-yyyy HH").format(new Date());
-	//public static String currentDir = System.getProperty("user.dir")+"\\Results";
-	public static String resultFolder = System.getProperty("user.dir")+"\\Results";
+	public static String currentDir = System.getProperty("user.dir")+"\\Results";
+	public static String outPutFolder;
 	public static Properties config = SetUp.loadConfig();
-	public static String reportPath = resultFolder+"\\"+config.getProperty("Report")+".html";
+	public static String reportPath;
 
 
 	public static ExtentReports getReportObject()
@@ -31,16 +34,38 @@ public class ExtentReporterNG extends SetUp
 		//String reportPath = System.getProperty("user.dir")+"\\Reports\\KMB_LeadCreationReport_"+folderDate;
 		extent = new ExtentReports();
 		
-		flOutput = new File(resultFolder);
+		flOutput = new File(currentDir);
 		if(!flOutput.exists()) {
 			if(flOutput.mkdir()) {
-				log.info("Result Directory is created!");
+				log.info("Reports Directory is created!");
 			}
 			else {
-				log.error("Failed to create result directory!");
-			}
+				log.error("Failed to create reports directory!");
+			}		
+		}
+		
+		if(config.getProperty("RunExecutedFromJar").equalsIgnoreCase("YES"))
+		{
+			String runID = config.getProperty("RunID");
+			outPutFolder = currentDir +"\\" + runID;
+			reportPath = outPutFolder+"\\"+ runID +".html";
+		}
+		else
+		{
+			outPutFolder = currentDir +"\\Output_"+folderDate;
+			reportPath = outPutFolder+"\\TestReport_"+folderDate+".html";
 		}
 
+		flOutput = new File(outPutFolder);
+		if(!flOutput.exists()) {
+			if(flOutput.mkdir()) {
+				log.info("Extent report Directory is created!");
+			}
+			else {
+				log.error("Failed to create extent report directory!");
+			}
+		}
+    
 		ExtentSparkReporter reporter =new ExtentSparkReporter(reportPath).viewConfigurer()
 			    .viewOrder()
 			    .as(new ViewName[] { 
