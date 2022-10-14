@@ -2,13 +2,10 @@ package com.crm.commonUtilities;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
 
-import org.apache.commons.io.FileUtils;
-import org.apache.poi.sl.draw.geom.Path;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,9 +21,9 @@ public class ExtentReporterNG extends SetUp
 	static Logger log = LoggerFactory.getLogger(ExtentReporterNG.class);
 	static String folderDate = new SimpleDateFormat("dd-MM-yyyy HH").format(new Date());
 	public static String currentDir = System.getProperty("user.dir")+"\\Results";
-	public static String outPutFolder;
+	public static String outPutFolder = currentDir +"\\Output_"+folderDate;
+	public static String reportPath = outPutFolder+"\\TestReport_"+folderDate+".html";
 	public static Properties config = SetUp.loadConfig();
-	public static String reportPath;
 
 
 	public static ExtentReports getReportObject()
