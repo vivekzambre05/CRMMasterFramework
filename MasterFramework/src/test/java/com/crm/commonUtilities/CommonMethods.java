@@ -4,7 +4,6 @@ import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.KeyEvent;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.ArrayList;
