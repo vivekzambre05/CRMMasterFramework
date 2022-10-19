@@ -5,11 +5,13 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Properties;
 import java.util.Scanner;
 
 import org.testng.ISuite;
@@ -46,9 +48,11 @@ public class TestListeners extends SetUp implements ITestListener, ISuiteListene
 	public static List<ITestNGMethod> skippedtests = new ArrayList<ITestNGMethod>();
 	public static LocalDateTime startTime;
 	public static LocalDateTime endTime;
-    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");  
+    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss"); 
+    public static int runnableCount = 0;
     
-    static File statusFile = new File("status.txt");
+    public static Properties config = SetUp.loadConfig();
+    static File statusFile = new File(System.getProperty("user.dir") + config.getProperty("StatusFile"));
     static FileWriter myWriter;
     static int testCount = 0;
 
@@ -163,6 +167,13 @@ public class TestListeners extends SetUp implements ITestListener, ISuiteListene
 	
 	public void onStart(ISuite arg0) {
 		startTime =  LocalDateTime.now();
+	    try {
+			runnableCount = ExcelOperation.getRunnableCount();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
 		try {
 		      if(statusFile.exists()) {
 			        System.out.println("Status file already exists. Deleting it..");
@@ -177,14 +188,9 @@ public class TestListeners extends SetUp implements ITestListener, ISuiteListene
 		      System.out.println("An error occurred.");
 		      e.printStackTrace();
 		    }
-		try {
-				myWriter = new FileWriter(statusFile.getName());
-				myWriter.write("Total number of tests selected with runnable mode as YES: " + ExcelOperation.getRunnableCount());
-				myWriter.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	
+			writeStatus("0/"+runnableCount+ " Completed");
+
 	}
 	
 	public void onFinish(ISuite arg0) {
@@ -194,7 +200,7 @@ public class TestListeners extends SetUp implements ITestListener, ISuiteListene
 			extent.setSystemInfo("Browser Version" , CommonMethods.getSystemInfo()[1]);
 			extent.flush();
 		    EmailReporting.sendReportViaEmail(passedtests.size(), failedtests.size(), skippedtests.size(), startTime, endTime);  
-			writeStatus("Execution status mail sent.");
+			writeStatus("\nExecution status mail sent.");
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -217,11 +223,10 @@ public class TestListeners extends SetUp implements ITestListener, ISuiteListene
 	public static void writeStatus(String status) {
 
 		try {			
-			 BufferedWriter out = new BufferedWriter(
-		                new FileWriter(statusFile.getName(), true));
+			 BufferedWriter out = new BufferedWriter(new FileWriter(statusFile.getAbsolutePath(), true));
 		 
 		            // Writing on output stream
-		            out.write("\n"+ status);
+		            out.write(status);
 		            // Closing the connection
 		            out.close();
 		     
@@ -237,8 +242,8 @@ public class TestListeners extends SetUp implements ITestListener, ISuiteListene
 		 try {
 			 	String filePath = statusFile.getAbsolutePath();
 			 	String result = fileToString(filePath);
-			 	String oldStatus = "Tests Completed - "+(testCount - 1);
-			 	String newStatus = "\nTests Completed - "+ testCount;
+			 	String oldStatus = ((testCount - 1)+"/"+runnableCount+ " Completed");
+			 	String newStatus = ((testCount)+"/"+runnableCount+ " Completed");
 			 	if(result.contains(oldStatus))
 			 		result = result.replaceAll(oldStatus,newStatus);
 			 	else
