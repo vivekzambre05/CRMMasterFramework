@@ -329,6 +329,7 @@ public static String getModule(String methodName) throws Exception
 			if(testCase.equalsIgnoreCase(methodName)){
 				
 				module = ExcelOperation.getCellData("TestScenario", "Module", rNum);
+				break;
 			}
 		}
 		return module;

@@ -56,6 +56,7 @@ public class TestRunner {
 		config.setProperty("Report", runID);
 		config.setProperty("RunID", runID);
 		config.setProperty("RunExecutedFromJar", "YES");
+		config.setProperty("StatusFile", "\\AutomationsFiles\\log_"+runID+".txt");
 
 		try {
 			config.store(out, "Modified properties according to runID");
